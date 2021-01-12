@@ -23,7 +23,7 @@ class Phaser
 
         const std::string ammoName[3] = {"regular", "plasma", "rocket"};
 
-        Phaser(int maxAmmo, AmmoType type);
+        Phaser(int maxAmmo = 20, AmmoType type = REGULAR);
 
         void fire();
         void ejectClip();
@@ -35,8 +35,9 @@ class Phaser
     private:
         AmmoType m_type;
         int m_maxAmmo;
-        int m_loadedAmmo;
-        int m_magazineAmmo;
+        int m_regularAmmo;
+        int m_plasmaAmmo;
+        int m_rocketAmmo;
         Sounds m_sounds;
         static const int Empty = 0;
 

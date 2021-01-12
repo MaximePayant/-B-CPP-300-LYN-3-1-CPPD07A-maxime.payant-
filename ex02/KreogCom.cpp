@@ -33,10 +33,10 @@ KreogCom::~KreogCom()
 
 void KreogCom::addCom(int x, int y, int serial)
 {
-    KreogCom *newKreagCom = new KreogCom(x, y, serial);
+    KreogCom *newKreogCom = new KreogCom(x, y, serial);
 
-    newKreagCom->m_next = m_next;
-    m_next = newKreagCom;
+    newKreogCom->m_next = m_next;
+    m_next = newKreogCom;
 }
 
 void KreogCom::removeCom()

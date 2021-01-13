@@ -18,6 +18,7 @@ class KreogCom
         const int m_x;
         const int m_y;
         KreogCom *m_next;
+        KreogCom *m_prev;
 
     public:
         KreogCom(int x, int y, int serial);

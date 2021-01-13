@@ -13,7 +13,8 @@ KreogCom::KreogCom(int x, int y, int serial) :
 m_serial(serial),
 m_x(x),
 m_y(y),
-m_next(NULL)
+m_next(NULL),
+m_prev(NULL)
 {
     std::cout
         << "KreogCom "
@@ -29,25 +30,27 @@ KreogCom::~KreogCom()
         << m_serial
         << " shutting down"
         << std::endl;
+    if (m_next)
+        m_next->m_prev = m_prev;
+    if (m_prev)
+        m_prev->m_next = m_next;
 }
 
 void KreogCom::addCom(int x, int y, int serial)
 {
     KreogCom *newKreogCom = new KreogCom(x, y, serial);
 
+    if (m_next)
+        m_next->m_prev = newKreogCom;
     newKreogCom->m_next = m_next;
+    newKreogCom->m_prev = this;
     m_next = newKreogCom;
 }
 
 void KreogCom::removeCom()
 {
-    KreogCom *tmp;
-
-    if (m_next) {
-        tmp = m_next->m_next;
+    if (m_next)
         delete(m_next);
-        m_next = tmp;
-    }
 }
 
 KreogCom *KreogCom::getCom() const

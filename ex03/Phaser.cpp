@@ -8,26 +8,11 @@
 #include "Phaser.hpp"
 
 Phaser::Phaser(int maxAmmo, AmmoType type) :
-m_type(type),
+m_defaultType(type),
 m_maxAmmo(maxAmmo),
-m_regularAmmo(0),
-m_plasmaAmmo(0),
-m_rocketAmmo(0),
+m_ammoMagazine(maxAmmo, type),
 m_sounds()
-{
-    switch (type)
-    {
-        case REGULAR:
-            m_regularAmmo = maxAmmo;
-            break;
-        case PLASMA:
-            m_plasmaAmmo = maxAmmo;
-            break;
-        case ROCKET:
-            m_rocketAmmo = maxAmmo;
-            break;
-    }
-}
+{}
 
 static std::string getSound(Sounds sounds, Phaser::AmmoType type)
 {
@@ -45,59 +30,21 @@ static std::string getSound(Sounds sounds, Phaser::AmmoType type)
 
 void Phaser::fire()
 {
-    switch (m_type) {
-        case REGULAR:
-            if (m_regularAmmo == Empty)
-                std::cout
-                    << "Clip empty, please reload"
-                    << std::endl;
-            else {
-                std::cout
-                    << getSound(m_sounds, m_type)
-                    << std::endl;
-                m_regularAmmo -= 1;
-            }
-            break;
-        case PLASMA:
-            if (m_plasmaAmmo == Empty)
-                std::cout
-                    << "Clip empty, please reload"
-                    << std::endl;
-            else {
-                std::cout
-                    << getSound(m_sounds, m_type)
-                    << std::endl;
-                m_plasmaAmmo -= 1;
-            }
-            break;
-        case ROCKET:
-            if (m_rocketAmmo == Empty)
-                std::cout
-                    << "Clip empty, please reload"
-                    << std::endl;
-            else {
-                std::cout
-                    << getSound(m_sounds, m_type)
-                    << std::endl;
-                m_rocketAmmo -= 1;
-            }
-            break;
+    if (m_ammoMagazine.empty())
+        std::cout
+            << "Clip empty, please reload"
+            << std::endl;
+    else {
+        std::cout
+            << getSound(m_sounds, m_ammoMagazine.front())
+            << std::endl;
+        m_ammoMagazine.pop_front();
     }
 }
 
 void Phaser::ejectClip()
 {
-    switch (m_type) {
-        case REGULAR:
-            m_regularAmmo = Empty;
-            break;
-        case PLASMA:
-            m_plasmaAmmo = Empty;
-            break;
-        case ROCKET:
-            m_rocketAmmo = Empty;
-            break;
-    }
+    m_ammoMagazine.clear();
 }
 
 void Phaser::changeType(AmmoType newType)
@@ -106,66 +53,29 @@ void Phaser::changeType(AmmoType newType)
         << "Switching ammo to type: "
         << ammoName[newType]
         << std::endl;
-    m_type = newType;
+    m_defaultType = newType;
 }
 
 void Phaser::reload()
 {
+    ejectClip();
     std::cout
         << "Reloading ..."
         << std::endl;
-    switch (m_type) {
-        case REGULAR:
-            m_regularAmmo = m_maxAmmo;
-            break;
-        case PLASMA:
-            m_plasmaAmmo = m_maxAmmo;
-            break;
-        case ROCKET:
-            m_rocketAmmo = m_maxAmmo;
-            break;
-    }
+    m_ammoMagazine.insert(m_ammoMagazine.begin(), m_maxAmmo, m_defaultType);
 }
 
 void Phaser::addAmmo(AmmoType type)
 {
-    switch (type) {
-        case REGULAR:
-            if (m_regularAmmo == m_maxAmmo)
-                std::cout
-                    << "Clip full"
-                    << std::endl;
-            else
-                m_regularAmmo += 1;
-            break;
-        case PLASMA:
-            if (m_plasmaAmmo == m_maxAmmo)
-                std::cout
-                    << "Clip full"
-                    << std::endl;
-            else
-                m_plasmaAmmo += 1;
-            break;
-        case ROCKET:
-            if (m_rocketAmmo == m_maxAmmo)
-                std::cout
-                    << "Clip full"
-                    << std::endl;
-            else
-                m_rocketAmmo += 1;
-            break;
-    }
+    if (m_ammoMagazine.size() == m_maxAmmo)
+        std::cout
+            << "Clip full"
+            << std::endl;
+    else
+        m_ammoMagazine.push_back(type);
 }
 
 int Phaser::getCurrentAmmos() const
 {
-    switch (m_type) {
-        case REGULAR:
-            return (m_regularAmmo);
-        case PLASMA:
-            return (m_plasmaAmmo);
-        case ROCKET:
-            return (m_rocketAmmo);
-    }
-    return (0);
+    return (m_ammoMagazine.size());
 }

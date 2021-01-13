@@ -10,6 +10,8 @@
 
 #include "Sounds.hpp"
 
+#include <deque>
+
 class Phaser
 {
 
@@ -33,11 +35,9 @@ class Phaser
         int getCurrentAmmos() const;
 
     private:
-        AmmoType m_type;
-        int m_maxAmmo;
-        int m_regularAmmo;
-        int m_plasmaAmmo;
-        int m_rocketAmmo;
+        AmmoType m_defaultType;
+        std::size_t m_maxAmmo;
+        std::deque<AmmoType> m_ammoMagazine;
         Sounds m_sounds;
         static const int Empty = 0;
 

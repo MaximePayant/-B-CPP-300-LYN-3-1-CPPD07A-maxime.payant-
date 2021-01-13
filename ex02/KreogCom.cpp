@@ -73,7 +73,7 @@ void KreogCom::locateSquad() const
 
     while (tmp != NULL) {
         tmp->ping();
-        tmp = tmp->getCom();
+        tmp = tmp->m_next;
     }
     ping();
 }

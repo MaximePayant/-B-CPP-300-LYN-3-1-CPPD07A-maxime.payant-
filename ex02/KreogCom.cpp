@@ -55,7 +55,7 @@ KreogCom *KreogCom::getCom() const
     return (m_next);
 }
 
-void KreogCom::ping()
+void KreogCom::ping() const
 {
     std::cout
         << "KreogCom "
@@ -67,13 +67,13 @@ void KreogCom::ping()
         << std::endl;
 }
 
-void KreogCom::locateSquad()
+void KreogCom::locateSquad() const
 {
     KreogCom *tmp = m_next;
 
     while (tmp != NULL) {
         tmp->ping();
-        tmp = tmp->m_next;
+        tmp = tmp->getCom();
     }
     ping();
 }

@@ -26,8 +26,8 @@ class KreogCom
         void addCom(int x, int y, int serial);
         void removeCom();
         KreogCom *getCom() const;
-        void ping();
-        void locateSquad();
+        void ping() const;
+        void locateSquad() const;
 
 }; // class KreogCom
 

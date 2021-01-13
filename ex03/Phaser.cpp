@@ -157,7 +157,7 @@ void Phaser::addAmmo(AmmoType type)
     }
 }
 
-int Phaser::getCurrentAmmos()
+int Phaser::getCurrentAmmos() const
 {
     switch (m_type) {
         case REGULAR:

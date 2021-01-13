@@ -30,7 +30,7 @@ class Phaser
         void changeType(AmmoType newType);
         void reload();
         void addAmmo(AmmoType type);
-        int getCurrentAmmos();
+        int getCurrentAmmos() const;
 
     private:
         AmmoType m_type;
